@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alfaras — 出品する</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080D18;--bg2:#0D1525;--card:#111E33;--gold:#C9A84C;--gold2:#E8C96A;
+  --gold-dim:rgba(201,168,76,0.12);--teal:#0D9488;--white:#FFFFFF;
+  --offwhite:#E8EDF5;--gray:#7A8FAA;--lightgray:#B0BDD4;
+  --border:rgba(201,168,76,0.18);--border2:rgba(255,255,255,0.06);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--offwhite);font-family:'Noto Serif JP',serif;font-weight:300;overflow-x:hidden;cursor:none;min-height:100vh}
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(201,168,76,0.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.1s ease}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 3.5rem;background:rgba(8,13,24,0.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--gold2);letter-spacing:0.15em;text-decoration:none}
+.nav-back{display:flex;align-items:center;gap:0.6rem;color:var(--lightgray);text-decoration:none;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.3s;cursor:none}
+.nav-back:hover{color:var(--gold2)}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* Mobile hamburger */
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:22px;height:1px;background:var(--gold2);transition:all 0.3s}
+.nav-hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.mobile-drawer{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:190;background:rgba(8,13,24,0.98);backdrop-filter:blur(16px);flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;opacity:0;transition:opacity 0.35s}
+.mobile-drawer.open{opacity:1}
+.mobile-drawer a{color:var(--lightgray);text-decoration:none;font-family:'DM Mono',monospace;font-size:1rem;letter-spacing:0.2em;text-transform:uppercase;transition:color 0.3s}
+.mobile-drawer a:hover{color:var(--gold2)}
+
+/* PAGE HERO */
+.page-hero{padding:10rem 3.5rem 5rem;max-width:1280px;margin:0 auto;border-bottom:1px solid var(--border)}
+.page-eyebrow{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;opacity:0;animation:fadeUp 0.8s 0.1s forwards}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6rem);font-weight:300;color:var(--white);line-height:1.05;margin-bottom:1.2rem;opacity:0;animation:fadeUp 1s 0.3s forwards}
+.page-title em{font-style:italic;color:var(--gold2)}
+.page-desc{font-size:0.92rem;color:var(--gray);line-height:2;max-width:520px;opacity:0;animation:fadeUp 0.8s 0.5s forwards}
+
+/* MAIN */
+main{max-width:1280px;margin:0 auto;padding:5rem 3.5rem;display:grid;grid-template-columns:1fr 380px;gap:4rem;align-items:start}
+
+/* FORM SECTION */
+.form-section{display:flex;flex-direction:column;gap:3rem}
+.form-block{}
+.form-block-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--white);margin-bottom:0.3rem}
+.form-block-sub{font-size:0.8rem;color:var(--gray);margin-bottom:1.8rem;line-height:1.7}
+.form-sep{height:1px;background:var(--border);margin-bottom:1.8rem}
+
+.field{display:flex;flex-direction:column;gap:0.45rem;margin-bottom:1.2rem}
+.field label{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase}
+.field input,.field textarea,.field select{background:var(--card);border:1px solid var(--border);color:var(--offwhite);padding:0.85rem 1rem;font-family:'Noto Serif JP',serif;font-size:0.88rem;outline:none;transition:border-color 0.3s;cursor:none;width:100%}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--gold)}
+.field textarea{resize:vertical;min-height:90px}
+.field select option{background:var(--card)}
+.field-hint{font-size:0.72rem;color:var(--gray);margin-top:0.2rem;line-height:1.5}
+
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+/* Price input with yen */
+.price-wrap{position:relative}
+.price-wrap input{padding-left:2rem}
+.price-wrap::before{content:'¥';position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--gold);font-family:'DM Mono',monospace;font-size:0.85rem;pointer-events:none}
+
+/* File upload */
+.upload-area{border:1px dashed var(--border);padding:2.5rem;text-align:center;cursor:none;transition:border-color 0.3s,background 0.3s;position:relative}
+.upload-area:hover{border-color:var(--gold);background:var(--gold-dim)}
+.upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:none;width:100%;height:100%}
+.upload-icon{width:32px;height:32px;stroke:var(--gold);fill:none;stroke-width:1.5;margin:0 auto 0.8rem}
+.upload-label{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;color:var(--lightgray);text-transform:uppercase}
+.upload-hint{font-size:0.72rem;color:var(--gray);margin-top:0.4rem}
+
+/* Agreement */
+.agree-row{display:flex;align-items:flex-start;gap:0.8rem;margin-top:0.5rem}
+.agree-row input[type=checkbox]{accent-color:var(--gold);margin-top:3px;cursor:none;flex-shrink:0}
+.agree-row span{font-size:0.8rem;color:var(--gray);line-height:1.7}
+.agree-row a{color:var(--gold);text-decoration:none}
+
+/* Submit */
+.submit-area{margin-top:2rem;display:flex;gap:1rem;align-items:center}
+.btn-submit{padding:1rem 3rem;background:var(--gold);color:#08080F;font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:none;transition:background 0.3s,transform 0.2s}
+.btn-submit:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-cancel{padding:1rem 1.8rem;background:transparent;border:1px solid var(--border);color:var(--gray);font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;cursor:none;text-decoration:none;transition:border-color 0.3s,color 0.3s;display:inline-block}
+.btn-cancel:hover{border-color:var(--gold);color:var(--gold)}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:6rem;display:flex;flex-direction:column;gap:1.5rem}
+.sidebar-card{background:var(--card);border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden}
+.sidebar-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold)}
+.sidebar-card-title{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:1.2rem}
+.fee-row{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid var(--border2);font-size:0.82rem}
+.fee-row:last-child{border-bottom:none;padding-top:0.8rem;color:var(--white);font-weight:500}
+.fee-label{color:var(--gray)}
+.fee-value{font-family:'DM Mono',monospace;color:var(--offwhite)}
+.preview-placeholder{text-align:center;padding:2rem 0}
+.preview-placeholder p{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--gray);font-style:italic;line-height:1.7}
+.steps-list{display:flex;flex-direction:column;gap:0}
+.step-item{display:flex;gap:1rem;align-items:flex-start;padding:0.8rem 0;border-bottom:1px solid var(--border2)}
+.step-item:last-child{border-bottom:none}
+.step-n{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--gold);flex-shrink:0;padding-top:0.15rem}
+.step-t{font-size:0.8rem;color:var(--lightgray);line-height:1.5}
+
+/* Success overlay */
+.success-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(8,13,24,0.97);align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;text-align:center;padding:2rem}
+.success-overlay.show{display:flex}
+.success-icon{width:60px;height:60px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.success-icon svg{width:24px;height:24px;stroke:var(--gold);fill:none;stroke-width:2}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:var(--white)}
+.success-title em{font-style:italic;color:var(--gold2)}
+.success-desc{font-size:0.88rem;color:var(--gray);line-height:2;max-width:400px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:960px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-back span{display:none}
+  .nav-hamburger{display:flex}
+  .mobile-drawer{display:flex}
+  .page-hero{padding:8rem 1.5rem 3rem}
+  main{grid-template-columns:1fr;padding:3rem 1.5rem;gap:2.5rem}
+  .sidebar{position:static}
+  .field-row{grid-template-columns:1fr}
+  body{cursor:auto}
+  .cursor,.cursor-ring{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Success overlay -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-icon">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <h2 class="success-title">出品を<em>受け付けました</em></h2>
+  <p class="success-desc">ご出品内容を確認のうえ、審査完了後にメールにてご連絡いたします。通常2〜3営業日以内にご連絡いたします。</p>
+  <a href="platform.html" style="margin-top:1rem;padding:0.9rem 2.5rem;border:1px solid var(--gold);color:var(--gold2);font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;transition:background 0.3s,color 0.3s;cursor:none" onmouseover="this.style.background='var(--gold)';this.style.color='#08080F'" onmouseout="this.style.background='';this.style.color='var(--gold2)'">マーケットプレイスに戻る</a>
+</div>
+
+<!-- Mobile drawer -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="platform.html" onclick="closeDrawer()">マーケットプレイス</a>
+  <a href="platform.html#search" onclick="closeDrawer()">検索</a>
+  <a href="platform.html#membership" onclick="closeDrawer()">会員制度</a>
+  <a href="platform.html#contact" onclick="closeDrawer()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="platform.html" class="nav-logo">Alfaras</a>
+  <a href="platform.html" class="nav-back">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    <span>マーケットプレイスに戻る</span>
+  </a>
+  <button class="nav-hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <p class="page-eyebrow">Resell — List Your NFT</p>
+  <h1 class="page-title">体験券を<br><em>出品する</em></h1>
+  <p class="page-desc">お持ちのNFT体験券をAlfarasマーケットプレイスに出品できます。ご利用できない日程の体験券を次の方へ。売却手数料は業界最低水準の2%です。</p>
+</div>
+
+<!-- MAIN -->
+<main>
+  <div class="form-section">
+    <form id="resellForm" onsubmit="handleSubmit(event)">
+
+      <!-- BLOCK 1: NFT情報 -->
+      <div class="form-block">
+        <h2 class="form-block-title">出品するNFTの情報</h2>
+        <p class="form-block-sub">出品するNFT体験券の詳細をご入力ください。</p>
+        <div class="form-sep"></div>
+
+        <div class="field">
+          <label>NFT体験券の種別</label>
+          <select required>
+            <option value="">選択してください</option>
+            <optgroup label="宿泊">
+              <option>ホテル</option>
+              <option>ヴィラ</option>
+              <option>旅館</option>
+              <option>貸別荘</option>
+            </optgroup>
+            <optgroup label="体験">
+              <option>VIP体験（F1・花火船・ミシュラン貸切等）</option>
+              <option>プロポーズ演出</option>
+              <option>その他VIP体験</option>
+            </optgroup>
+            <optgroup label="会員権">
+              <option>ゴルフ会員権</option>
+              <option>サウナ会員権</option>
+              <option>ホテル会員権</option>
+              <option>シェア別荘</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>施設名・体験名</label>
+          <input type="text" placeholder="例：アマン東京 コーナースイート" required>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>エリア（都道府県）</label>
+            <select required>
+              <option value="">選択してください</option>
+              <option>北海道</option><option>青森</option><option>岩手</option><option>宮城</option><option>秋田</option><option>山形</option><option>福島</option>
+              <option>茨城</option><option>栃木</option><option>群馬</option><option>埼玉</option><option>千葉</option><option>東京</option><option>神奈川</option>
+              <option>新潟</option><option>富山</option><option>石川</option><option>福井</option><option>山梨</option><option>長野</option><option>岐阜</option><option>静岡</option><option>愛知</option>
+              <option>三重</option><option>滋賀</option><option>京都</option><option>大阪</option><option>兵庫</option><option>奈良</option><option>和歌山</option>
+              <option>鳥取</option><option>島根</option><option>岡山</option><option>広島</option><option>山口</option><option>徳島</option><option>香川</option><option>愛媛</option><option>高知</option>
+              <option>福岡</option><option>佐賀</option><option>長崎</option><option>熊本</option><option>大分</option><option>宮崎</option><option>鹿児島</option><option>沖縄</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>利用可能期限</label>
+            <input type="date" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>NFTコントラクトアドレス / トークンID</label>
+          <input type="text" placeholder="0x... / #1234">
+          <span class="field-hint">ウォレットの詳細ページから確認できます。不明な場合は空欄でも可。</span>
+        </div>
+
+        <div class="field">
+          <label>体験券の詳細・特記事項</label>
+          <textarea placeholder="部屋タイプ、人数、含まれるサービス、注意事項など"></textarea>
+        </div>
+      </div>
+
+      <!-- BLOCK 2: 価格設定 -->
+      <div class="form-block">
+        <h2 class="form-block-title">価格設定</h2>
+        <p class="form-block-sub">売却希望価格を設定してください。Alfarasの手数料（2%）が差し引かれた金額が入金されます。</p>
+        <div class="form-sep"></div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>売却希望価格（税込）</label>
+            <div class="price-wrap">
+              <input type="number" placeholder="500000" min="10000" step="1000" required id="priceInput" oninput="calcFee()">
+            </div>
+          </div>
+          <div class="field">
+            <label>最低売却価格（任意）</label>
+            <div class="price-wrap">
+              <input type="number" placeholder="400000" min="10000" step="1000">
+            </div>
+            <span class="field-hint">この価格未満では売却しません。</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>出品有効期限</label>
+          <select>
+            <option>7日間</option>
+            <option selected>14日間</option>
+            <option>30日間</option>
+            <option>60日間</option>
+            <option>期限なし</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- BLOCK 3: 画像 -->
+      <div class="form-block">
+        <h2 class="form-block-title">画像のアップロード</h2>
+        <p class="form-block-sub">施設・体験の写真をアップロードすると購入率が向上します。</p>
+        <div class="form-sep"></div>
+        <div class="upload-area">
+          <input type="file" accept="image/*" multiple>
+          <svg class="upload-icon" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+          <div class="upload-label">クリックまたはドラッグ＆ドロップ</div>
+          <div class="upload-hint">PNG・JPG・WEBP / 最大5枚 / 各10MB以下</div>
+        </div>
+      </div>
+
+      <!-- BLOCK 4: 出品者情報 -->
+      <div class="form-block">
+        <h2 class="form-block-title">出品者情報</h2>
+        <p class="form-block-sub">審査完了後、ご連絡先にメールをお送りします。</p>
+        <div class="form-sep"></div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>お名前</label>
+            <input type="text" placeholder="山田 太郎" required>
+          </div>
+          <div class="field">
+            <label>メールアドレス</label>
+            <input type="email" placeholder="info@example.com" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>ウォレットアドレス</label>
+          <input type="text" placeholder="0x...">
+          <span class="field-hint">NFTの所有確認のために使用します。</span>
+        </div>
+
+        <div class="field">
+          <label>振込先口座情報</label>
+          <input type="text" placeholder="銀行名・支店名・口座番号・口座名義">
+          <span class="field-hint">売却完了後の入金先として使用します。</span>
+        </div>
+      </div>
+
+      <!-- Agreement & Submit -->
+      <div class="form-block">
+        <div class="agree-row">
+          <input type="checkbox" id="agree" required>
+          <span>Alfarasの<a href="#">利用規約</a>および<a href="#">出品ガイドライン</a>に同意します。出品後の価格変更はAlfarasサポートへご連絡ください。</span>
+        </div>
+        <div class="submit-area">
+          <button type="submit" class="btn-submit">出品申請を送信する</button>
+          <a href="platform.html" class="btn-cancel">キャンセル</a>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">手数料の内訳</div>
+      <div class="fee-row">
+        <span class="fee-label">売却希望価格</span>
+        <span class="fee-value" id="sidePrice">¥ —</span>
+      </div>
+      <div class="fee-row">
+        <span class="fee-label">Alfaras手数料（2%）</span>
+        <span class="fee-value" id="sideFee">¥ —</span>
+      </div>
+      <div class="fee-row">
+        <span class="fee-label">お受取額（概算）</span>
+        <span class="fee-value" id="sideNet">¥ —</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">出品から入金までの流れ</div>
+      <div class="steps-list">
+        <div class="step-item"><span class="step-n">01</span><span class="step-t">出品申請を送信（このページ）</span></div>
+        <div class="step-item"><span class="step-n">02</span><span class="step-t">Alfarasによる審査（2〜3営業日）</span></div>
+        <div class="step-item"><span class="step-n">03</span><span class="step-t">マーケットプレイスに掲載開始</span></div>
+        <div class="step-item"><span class="step-n">04</span><span class="step-t">購入者決定後、NFTが自動転送</span></div>
+        <div class="step-item"><span class="step-n">05</span><span class="step-t">手数料差引後に即時入金</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">出品のポイント</div>
+      <div style="display:flex;flex-direction:column;gap:0.7rem">
+        <p style="font-size:0.8rem;color:var(--gray);line-height:1.7">— 写真を複数枚アップロードすると購入率が約2倍になります</p>
+        <p style="font-size:0.8rem;color:var(--gray);line-height:1.7">— 利用可能期限が近いほど早期売却が見込めます</p>
+        <p style="font-size:0.8rem;color:var(--gray);line-height:1.7">— 詳細な説明文は購入者の安心感を高めます</p>
+        <p style="font-size:0.8rem;color:var(--gray);line-height:1.7">— 元の購入価格に近い価格設定が成約率を上げます</p>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer style="background:var(--bg);border-top:1px solid var(--border);padding:2rem 3.5rem;display:flex;align-items:center;justify-content:space-between">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--gold2);letter-spacing:0.15em">Alfaras</div>
+  <div style="font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--gray);letter-spacing:0.08em;text-align:center">Alfaras Co., Ltd.<br>&copy; 2025 Alfaras. All rights reserved.</div>
+  <a href="platform.html" style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--gray);text-decoration:none;letter-spacing:0.08em;transition:color 0.3s" onmouseover="this.style.color='var(--gold2)'" onmouseout="this.style.color='var(--gray)'">マーケットプレイスに戻る</a>
+</footer>
+
+<script>
+// Cursor
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function a(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a)})();
+
+// Drawer
+function toggleDrawer(){
+  const d=document.getElementById('mobileDrawer'),h=document.getElementById('hamburger');
+  const open=d.classList.toggle('open');h.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeDrawer(){
+  document.getElementById('mobileDrawer').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// Fee calculator
+function calcFee(){
+  const v=parseInt(document.getElementById('priceInput').value)||0;
+  const fee=Math.round(v*0.02);
+  const net=v-fee;
+  document.getElementById('sidePrice').textContent=v?'¥'+v.toLocaleString():'¥ —';
+  document.getElementById('sideFee').textContent=v?'¥'+fee.toLocaleString():'¥ —';
+  document.getElementById('sideNet').textContent=v?'¥'+net.toLocaleString():'¥ —';
+}
+
+// Submit
+function handleSubmit(e){
+  e.preventDefault();
+  document.getElementById('successOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+</script>
+</body>
+</html>
